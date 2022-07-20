@@ -1,0 +1,10 @@
+{
+  "name": "honeycomb",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "devDependencies": {
+    "typescript": "^4.7.4",
+    "tslib": "^2.4.0"
+  }
+}
