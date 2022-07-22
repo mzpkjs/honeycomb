@@ -1,13 +1,15 @@
 {
   "private": true,
   "scripts": {
-    "example": "vite ./examples/simple"
+    "example": "vite serve ./examples/simple --config ./vite.config.js",
+    "build": "vite build ./examples/simple --outDir ../../docs --base /honeycomb/ --emptyOutDir"
   },
   "license": "MIT",
   "workspaces": [
     "./lib"
   ],
   "devDependencies": {
-    "vite": "^3.0.2"
+    "vite": "^3.0.2",
+    "vite-plugin-html": "^3.2.0"
   }
 }

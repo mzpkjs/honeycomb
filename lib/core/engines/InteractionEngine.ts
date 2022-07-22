@@ -61,11 +61,15 @@ class InteractionEngine {
     if (this._state.isActive) {
       const target = offset({ x: event.clientX, y: event.clientY }, this._camera)
       if (this._state.keys.size === 0) {
-        const { x, y } = add(scale(this._state.current, -1), subtract(target, this._state.origin))
+        const ratio = 1 / this._camera.zoom
+        const { x, y } = add(
+          scale(this._state.current, -1),
+          scale(subtract(target, this._state.origin), ratio)
+        )
         this._camera.set({ x, y })
       } else if (this._state.keys.has(ModifierKey.SHIFT_LEFT)) {
-        const multiplier = 0.00025
-        const delta = multiplier * event.movementX * Math.PI * 2
+        const multiplier = 0.01
+        const delta = multiplier * target.x % (Math.PI * 2)
         this._camera.rotate(delta)
       }
     }
@@ -75,19 +79,15 @@ class InteractionEngine {
     if (this._state.keys.size === 0) {
       const multiplier = 0.001
       const zoom = this._camera.zoom - event.deltaY * multiplier
-      if (zoom > Camera.ZOOM_MINIMUM && zoom < Camera.ZOOM_MAXIMUM) {
-        const target = offset({ x: event.clientX, y: event.clientY }, this._camera)
-        const { x, y } = subtract(
-          scale(this._camera.position, -1),
-          scale(target, 1 - this._camera.zoom / zoom)
-        )
-        this._camera.set({ x, y, z: zoom })
-      } else {
-        this._camera.set({ z: zoom })
-      }
+      const target = offset({ x: event.clientX, y: event.clientY }, this._camera)
+      const { x, y } = subtract(
+        scale(this._camera.position, -1),
+        scale(target, (1 - this._camera.zoom / zoom) * (1 / zoom) * 0.75)
+      )
+      this._camera.set({ x, y, z: zoom })
     } else if (this._state.keys.has(ModifierKey.SHIFT_LEFT)) {
-      const multiplier = 0.00025
-      const delta = multiplier * event.deltaY * Math.PI * 2
+      const multiplier = 0.01
+      const delta = this._camera.rotation + (multiplier * event.deltaY)
       this._camera.rotate(delta)
     }
   }

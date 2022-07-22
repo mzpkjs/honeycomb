@@ -4,6 +4,7 @@ import InteractionEngine from "./core/engines/InteractionEngine"
 import Camera from "./core/Camera"
 
 export default function main(data) {
+  console.log("Your version is:", import.meta.env.VITE_VERSION);
   const root = document.querySelector<HTMLElement>("#application")
 
   if (root) {

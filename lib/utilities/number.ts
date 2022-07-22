@@ -5,3 +5,7 @@ export const clamp = (number: number, [ minimum, maximum ]: [ number, number ]) 
       ? maximum
       : number
 }
+
+export default {
+  clamp
+}

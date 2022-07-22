@@ -38,7 +38,7 @@ class Renderer {
     const zoom = this._camera.zoom
     this._canvas.setAttribute("transform", `translate(${tx} ${ty})`)
     this._viewport.setAttribute("transform-origin", `${x} ${y}`)
-    this._viewport.setAttribute("transform", `scale(${zoom}, ${zoom}) rotate(${this._camera.rotation * (180/Math.PI)})`)
+    this._viewport.setAttribute("transform", `scale(${zoom} ${zoom}) rotate(${this._camera.rotation * (180/Math.PI)})`)
     const renderable = this._renderables.get(entity)
     renderable.update()
   }
