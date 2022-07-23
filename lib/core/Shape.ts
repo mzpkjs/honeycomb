@@ -1,6 +1,6 @@
 class Shape {
   private readonly _tag: string
-  private readonly _children: Shape[] = []
+  private readonly _children: (Shape | string)[] = []
   private readonly _attributes: Map<string, string> = new Map()
 
   constructor(tag: string) {
@@ -11,7 +11,7 @@ class Shape {
     this._attributes.set(attribute, value)
   }
 
-  public append(child: Shape): void {
+  public append(child: Shape | string): void {
     this._children.push(child)
   }
 
@@ -28,7 +28,7 @@ class Shape {
   }
 }
 
-export const h = (tag: string, attributes: Record<string, string | number> | null, ...children: Shape[]): Shape => {
+export const h = (tag: string, attributes: Record<string, string | number> | null, ...children: (Shape | string)[]): Shape => {
   const shape = new Shape(tag)
 
   if (attributes !== null) {
@@ -49,6 +49,9 @@ export const h = (tag: string, attributes: Record<string, string | number> | nul
 
 export const g = (attributes: { }, ...children: Shape[]) =>
   h("g", attributes, ...children)
+
+export const text = (attributes: { x?: number, y?: number, fill?: string, "text-anchor"?: string, "dominant-baseline"?: string, transform?: string, "transform-origin"?: string }, ...children: string[]) =>
+  h("text", attributes, ...children)
 
 export const polygon = (attributes: { points?: string, fill?: string }) =>
   h("polygon", attributes)

@@ -24,8 +24,14 @@ export const subtract = (vA: Vector, vB: Vector, vT = create()): Vector => {
 }
 
 export const multiply = (vA: Vector, vB: Vector, vT = create()): Vector => {
-  vT.x = vA.x - vB.x
-  vT.y = vA.y - vB.y
+  vT.x = vA.x * vB.x
+  vT.y = vA.y * vB.y
+  return vT
+}
+
+export const divide = (vA: Vector, vB: Vector, vT = create()): Vector => {
+  vT.x = vA.x / vB.x
+  vT.y = vA.y / vB.y
   return vT
 }
 

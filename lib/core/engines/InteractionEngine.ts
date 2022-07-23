@@ -1,7 +1,9 @@
 import Camera from "../Camera"
-import Vector, { add, subtract, scale } from "../../utilities/vector"
+import Vector, { add, subtract, scale } from "../../utilities/vector";
+import { clamp } from "../../utilities/number";
 
 enum ModifierKey {
+  CTRL_LEFT = "ControlLeft",
   SHIFT_LEFT = "ShiftLeft"
 }
 
@@ -71,6 +73,12 @@ class InteractionEngine {
         const multiplier = 0.01
         const delta = multiplier * target.x % (Math.PI * 2)
         this._camera.rotate(delta)
+      } else if (this._state.keys.has(ModifierKey.CTRL_LEFT)) {
+        const multiplier = 0.0025
+        const movement = { x: event.movementX, y: event.movementY }
+        const { x: dx, y: dy } = scale(movement, multiplier)
+        this._camera.perspective.y = clamp(this._camera.perspective.y + dx, [ -0.15, 0.15 ])
+        this._camera.perspective.a = clamp((this._camera.perspective.a + dy), [ -Math.PI / 3, 0 ])
       }
     }
   }
@@ -93,11 +101,11 @@ class InteractionEngine {
   }
 
   private _keydown = (event: KeyboardEvent) => {
-    this._state.keys.add(ModifierKey.SHIFT_LEFT)
+    this._state.keys.add(event.code as ModifierKey)
   }
 
   private _keyup = (event: KeyboardEvent) => {
-    this._state.keys.delete(ModifierKey.SHIFT_LEFT)
+    this._state.keys.delete(event.code as ModifierKey)
   }
 }
 

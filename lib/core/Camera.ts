@@ -7,6 +7,7 @@ class Camera {
   public static readonly ZOOM_MINIMUM = 0.25
 
   public projection: Matrix = Matrix.identity()
+  public perspective = { x: 0, y: 0, a: 0 }
   private readonly _element: HTMLElement
 
   constructor(element: HTMLElement) {
